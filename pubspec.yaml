@@ -53,6 +53,9 @@ flutter:
     - lib/assets/lesson6/
     - lib/assets/lesson7/
     - lib/assets/lesson8/
+    - lib/assets/lesson9/
+    - lib/assets/lesson10/
+    - lib/assets/lesson11/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -51,8 +51,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       padding: const EdgeInsets.only(top: 12, bottom: 12, left: 24, right: 40),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          reusableText(value.getQuizResult()[index].quizName, textColor),
+                          Expanded(child: reusableText(value.getQuizResult()[index].quizName, textColor)),
                           reusableText(value.getQuizResult()[index].score.toString(), textColor)
                         ],
                       ),

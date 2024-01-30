@@ -1,7 +1,7 @@
 import 'option.dart';
 
 class Question {
-  final String text;
+  late String text;
   final List<Option> options;
   bool isLocked;
   Option? selectedOption;
@@ -23,10 +23,6 @@ class Question {
   }
 
   factory Question.fromJson(Map<String, dynamic> json) {
-    print('Question JSON Data: $json');
-    print('Question JSON Data Type: ${json.runtimeType}');
-    print('Question JSON Data Length: ${json.length}');
-
     // Add the following line to check the data types of the fields
     print('Text Type: ${json['text'].runtimeType}');
     print('Options Type: ${json['options'].runtimeType}');

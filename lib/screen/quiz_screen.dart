@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:software_engineering/const/colors.dart';
+import 'package:software_engineering/screen/add_new_quiz.dart';
 import 'package:software_engineering/screen/quiz_runtime_screen.dart';
 import 'package:software_engineering/utils/reusableText.dart';
 import '../database/data_manager.dart';
@@ -38,17 +39,24 @@ class _QuizScreenState extends State<QuizScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 12),
-                        //Software Engineering 1 --> List View
+                        //Software Engineering 1 --> Quiz
                         reusableSubtitleText("Software Engineering 1", textColor),
                         const SizedBox(height: 12,),
                         _quizOption(value, 0),
 
                         const SizedBox(height: 24,),
 
-                        // Software Engineering 2 --> List View
+                        // Software Engineering 2 --> Quiz
                         reusableSubtitleText("Software Engineering 2", textColor),
                         const SizedBox(height: 12,),
                         _quizOption(value, 1),
+
+                        const SizedBox(height: 24,),
+
+                        // Custom Quiz
+                        reusableSubtitleText("Custom Quiz", textColor),
+                        const SizedBox(height: 12,),
+                        _quizOption(value, 2),
 
                       ],
                     ),
@@ -74,8 +82,14 @@ class _QuizScreenState extends State<QuizScreen> {
   * Button to skip test through the selected Chapter
   * */
   _showBottomSheet(BuildContext context, DataManager value, int course, int index) {
-    String chapValue = value.getSoftwareEngineering()[course][index].topicValue.toString();
-    String chapTitle = value.getSoftwareEngineering()[course][index].topicTitle.toString();
+    int? selectedQuiz;
+
+    switch (course) {
+      case 0: selectedQuiz = index; break;
+      case 1: selectedQuiz = index + 4; break;
+      case 2: selectedQuiz = index + 6; break;
+      default : selectedQuiz = index;
+    }
     return showBottomSheet(
       context: context,
       builder: (context) => Container(
@@ -102,7 +116,7 @@ class _QuizScreenState extends State<QuizScreen> {
               const SizedBox(height: 24,),
               Center(
                 child: reusableSubtitleText(
-                  'Chapter $chapValue: $chapTitle',
+                  value.quizList[selectedQuiz!].name,
                   textColor
                 ),
               ),
@@ -125,7 +139,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      reusableText("10 Question", textColor),
+                      reusableText("5 Question", textColor),
                       Text(
                         "1 point for each correct answer",
                         style: GoogleFonts.inter(
@@ -236,18 +250,35 @@ class _QuizScreenState extends State<QuizScreen> {
   * OnTap -> Show the bottom sheet
   * */
   _quizOption(DataManager value, int course) {
+    int quizNum;
+    switch(course) {
+      case 0 : quizNum = value.getSoftwareEngineering()[0].length; break;
+      case 1 : quizNum = value.getSoftwareEngineering()[1].length; break;
+      case 2 : quizNum = value.quizList.length - (value.getSoftwareEngineering()[0].length + value.softwareEngineering[1].length); break;
+      default: quizNum = 0; break;
+    }
+
     return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: value.getSoftwareEngineering()[course].length,
+        itemCount: quizNum,//course == 0 ? value.getSoftwareEngineering()[0].length : course == 1 ? value.getSoftwareEngineering()[1].length : value.quizList.length - (value.getSoftwareEngineering()[0].length + value.softwareEngineering[1].length),
         itemBuilder: (context, index) {
+          int? selectedQuiz;
+
+          switch (course) {
+            case 0: selectedQuiz = index; break;
+            case 1: selectedQuiz = index + 8; break;
+            case 2: selectedQuiz = index + 11; break;
+            default : selectedQuiz = index;
+          }
+
           return Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: MaterialButton(
               onPressed: () => _showBottomSheet(context, value, course, index),
               padding: const EdgeInsets.all(16),
               minWidth: MediaQuery.of(context).size.width,
-              color: value.quizList[course == 0 ? index : course == 1 ? index + 4 : index + 6] // check if soft eng 1 or 2 if soft eng 2 and the length of soft eng 1 to index else use initial index
+              color: value.quizList[course == 0 ? index : course == 1 ? index + value.getSoftwareEngineering()[0].length : index + value.getSoftwareEngineering().length] // check if soft eng 1 or 2 if soft eng 2 and the length of soft eng 1 to index else use initial index
                   .isCompleted == true ? lGreen : Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -257,7 +288,7 @@ class _QuizScreenState extends State<QuizScreen> {
               child: SizedBox(
                 width: double.infinity,
                 child: reusableText(
-                    'Chapter ${value.quizList[index].name}',
+                    value.quizList[selectedQuiz].name,
                     textColor
                 ),
               ),
@@ -290,8 +321,9 @@ class _QuizScreenState extends State<QuizScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizRuntimeScreen(courseIndex: 0, selectedQuiz: 0, key: UniqueKey(),))),
-          child: reusableSubtitleText('Start Quiz', Colors.white)
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AddNewQuiz())),
+          //onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizRuntimeScreen(courseIndex: 0, selectedQuiz: 0, key: UniqueKey(),))),
+          child: reusableSubtitleText('Add Quiz', Colors.white)
         )
       ],
     );

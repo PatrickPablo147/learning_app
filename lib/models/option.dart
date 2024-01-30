@@ -1,8 +1,8 @@
 class Option {
-  final String text;
-  final bool isCorrect;
+  String? text;
+  bool isCorrect;
 
-  const Option({
+  Option({
     required this.text,
     required this.isCorrect
   });

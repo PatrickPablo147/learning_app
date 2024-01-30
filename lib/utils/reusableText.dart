@@ -44,7 +44,8 @@ Widget reusableTitleText(String text, Color color) {
         fontSize: 24,
         fontWeight: FontWeight.bold,
         color: color,
-        height: 1.2
+        height: 1.2,
+        letterSpacing: -0.5
       ),
     ),
   );

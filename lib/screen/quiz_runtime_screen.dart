@@ -32,10 +32,11 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
     _pageController = PageController(initialPage: 0);
     resetState(Provider.of<DataManager>(context, listen: false));
 
-    if(widget.courseIndex == 1) {
-      _selectedQuiz = widget.selectedQuiz + 4;
-    } else {
-      _selectedQuiz = widget.selectedQuiz;
+    switch (widget.courseIndex) {
+      case 0: _selectedQuiz = widget.selectedQuiz; break;
+      case 1: _selectedQuiz = widget.selectedQuiz + 8; break;
+      case 2: _selectedQuiz = widget.selectedQuiz + 11; break;
+      default : _selectedQuiz = widget.selectedQuiz;
     }
   }
 
@@ -73,7 +74,9 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
   }
 
   questionCard(DataManager value) {
-    List<Question> question = value.getQuizList()[_selectedQuiz!].question;
+    List<Question> question = value.getQuizList()[_selectedQuiz!].questions;
+
+    print('Question: $question');
     return Expanded(
       child: PageView.builder(
         controller: _pageController,
@@ -122,7 +125,7 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
                     isReverse: true,
                     onComplete: () {
                       setState(() {
-                        if (_questionNumber < value.getQuizList()[_selectedQuiz!].question.length) {
+                        if (_questionNumber < value.getQuizList()[_selectedQuiz!].questions.length) {
                           _pageController.nextPage(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeInOut
@@ -131,7 +134,8 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
                             _questionNumber++;
                           });
                         } else {
-                          if(score > value.getQuizList()[_selectedQuiz!].question.length / 2) {
+                          if(score > value.getQuizList()[_selectedQuiz!].questions.length / 2) {
+                            print('selected Quiz: $_selectedQuiz');
                             // Set isCompleted to true for the selected topic in the selected quiz
                             Provider.of<DataManager>(context, listen: false)
                                 .getQuizList()[_selectedQuiz!].isCompleted = true;
@@ -142,13 +146,13 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
                             Provider.of<DataManager>(context, listen: false).notifyListeners();
                           }
 
-                          Provider.of<DataManager>(context, listen: false).addResult(value.softwareEngineering[widget.courseIndex][_selectedQuiz!].topicTitle.toString(), score);
+                          Provider.of<DataManager>(context, listen: false).addResult(value.quizList[_selectedQuiz!].name, score);
 
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ResultScreen(
                             courseIndex: widget.courseIndex,
                             selectedQuiz: widget.selectedQuiz,
                             score: score,
-                            total: value.getQuizList()[_selectedQuiz!].question.length)
+                            total: value.getQuizList()[_selectedQuiz!].questions.length)
                           ));
                         }
                       });
@@ -191,7 +195,7 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
 
         // Move to the next question
         Future.delayed(const Duration(seconds: 1), (){
-          if (_questionNumber < value.getQuizList()[_selectedQuiz!].question.length) {
+          if (_questionNumber < value.getQuizList()[_selectedQuiz!].questions.length) {
             _pageController.nextPage(
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeInOut,
@@ -200,18 +204,14 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
               _questionNumber++;
             });
           } else {
-            if(score > value.getQuizList()[_selectedQuiz!].question.length / 2) {
+            if(score > value.getQuizList()[_selectedQuiz!].questions.length / 2) {
+              print(widget.selectedQuiz);
               // Set isCompleted to true for the selected topic in the selected quiz
-              Provider.of<DataManager>(context, listen: false)
-                  .softwareEngineering[widget.courseIndex][_selectedQuiz!]
-                  .isCompleted = true;
-
-              // Notify listeners to rebuild widgets that depend on DataManager
-              Provider.of<DataManager>(context, listen: false).notifyListeners();
+              Provider.of<DataManager>(context, listen: false).markQuizCompleted(_selectedQuiz!);
             }
 
             Provider.of<DataManager>(context, listen: false).addResult(
-                value.softwareEngineering[widget.courseIndex][_selectedQuiz!].topicTitle.toString(),
+                value.quizList[_selectedQuiz!].name,
                 score
             );
 
@@ -223,7 +223,7 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
                   courseIndex: widget.courseIndex,
                   selectedQuiz: widget.selectedQuiz,
                   score: score,
-                  total: value.getQuizList()[_selectedQuiz!].question.length,
+                  total: value.getQuizList()[_selectedQuiz!].questions.length,
                 ),
               ),
             );
@@ -257,7 +257,7 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(option.text),
+            Expanded(child: reusableText(option.text!, textColor)),
             getIconForOption(option, question)
           ],
         ),
@@ -315,7 +315,7 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
       _questionNumber = 1;
       score = 0;
       isLocked = false;
-      for (var question in value.getQuizList()[widget.selectedQuiz].question) {
+      for (var question in value.getQuizList()[widget.courseIndex == 0 ? widget.selectedQuiz : widget.selectedQuiz + 4].questions) {
         question.isLocked = false;
         question.selectedOption = null;
       }
@@ -326,7 +326,7 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        reusableText('Question $_questionNumber | ${value.getQuizList()[_selectedQuiz!].question.length}', textColor),
+        reusableText('Question $_questionNumber | ${value.getQuizList()[_selectedQuiz!].questions.length}', textColor),
         MaterialButton(
             minWidth: 132,
             height: 46,
@@ -335,17 +335,23 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) =>
-                ResultScreen(
-                  courseIndex: widget.courseIndex,
-                  selectedQuiz: widget.selectedQuiz,
-                  score: score,
-                  total: value.getQuizList()[widget.selectedQuiz].question.length
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) =>
+                    ResultScreen(
+                        courseIndex: widget.courseIndex,
+                        selectedQuiz: widget.selectedQuiz,
+                        score: score,
+                        total: value.getQuizList()[widget.selectedQuiz].questions.length
+                    )
                 )
-              )
-            ),
+              );
+              Provider.of<DataManager>(context, listen: false).addResult(
+                  value.quizList[_selectedQuiz!].name,
+                  score
+              );
+            },
             child: reusableSubtitleText('Give Up' , Colors.white)
         ),
       ],
