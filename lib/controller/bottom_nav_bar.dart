@@ -8,10 +8,10 @@ import 'package:software_engineering/screen/quiz_screen.dart';
 import 'package:software_engineering/screen/settings_screen.dart';
 import '../database/data_manager.dart';
 
-
-
 class MyBottomNavBar extends StatelessWidget {
   static final PersistentTabController _controller = PersistentTabController(initialIndex: 0);
+  static PersistentTabController get controller => _controller;
+
   const MyBottomNavBar({Key? key}) : super(key: key);
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software_engineering/const/colors.dart';
-import 'package:software_engineering/screen/quiz_runtime_screen.dart';
+import 'package:software_engineering/screen/quiz_screen.dart';
 import 'package:software_engineering/utils/lesson_slideshare.dart';
 import 'package:software_engineering/utils/reusableText.dart';
 import '../database/data_manager.dart';
@@ -65,14 +65,10 @@ class _TopicScreenState extends State<TopicScreen> {
                               borderRadius: BorderRadius.circular(12), // Set your desired border radius
                             ),
                             onPressed: () {
-                              print(widget.topicValue);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => QuizRuntimeScreen(
-                                          courseIndex: widget.courseIndex,
-                                          selectedQuiz: widget.topicValue
-                                      )
+                                      builder: (context) => const QuizScreen()
                                   )
                               );
                             },
@@ -260,3 +256,5 @@ class _TopicScreenState extends State<TopicScreen> {
     );
   }
 }
+
+

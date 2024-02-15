@@ -227,7 +227,7 @@ class ResultScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12,),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pop(context),
             padding: const EdgeInsets.all(24),
             minWidth: double.infinity,
             color: Colors.white,
@@ -243,7 +243,7 @@ class ResultScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 24,),
                 reusableText(
-                    'Review Answer',
+                    'Try Other Quiz',
                     textColor
                 ),
               ],

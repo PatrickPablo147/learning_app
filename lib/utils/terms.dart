@@ -22,7 +22,7 @@ class TermsAndCondition extends StatelessWidget {
                       textColor
                   ),
                   reusableText(
-                      "\nBy using LearnSoftEng (\"the App\"), you agree to comply with and be bound by the following terms and conditions of use. If you do not agree to these terms, please do not use the Application.",
+                      "\nBy using Learn SoftEng, you agree to comply with and be bound by the following terms and conditions of use. If you do not agree to these terms, please do not use the Application.",
                       textColor
                   ),
                   reusableSubtitleText(
@@ -31,7 +31,7 @@ class TermsAndCondition extends StatelessWidget {
                   ),
                   reusableText("\nSubject to your compliance with these Terms, our team grants you a limited, non-exclusive, non-transferable, revocable license to use the App for your personal, non-commercial purposes.", textColor),
                   reusableSubtitleText(
-                      "\n3. User Registratio",
+                      "\n3. User Registration",
                       textColor
                   ),
                   reusableText(

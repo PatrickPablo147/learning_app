@@ -31,7 +31,7 @@ class _QuizScreenState extends State<QuizScreen> {
             child: Column(
               children: [
                 //header
-                _header(),
+                _header(value),
                 const SizedBox(height: 20,),
                 Expanded(
                   child: SingleChildScrollView(
@@ -304,7 +304,7 @@ class _QuizScreenState extends State<QuizScreen> {
   * Header -> Display Catch phrase
   * Button for quiz run time starting from the first quiz
   * */
-  _header() {
+  _header(DataManager value) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -321,9 +321,11 @@ class _QuizScreenState extends State<QuizScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AddNewQuiz())),
+          onPressed: () => value.status == 'teacher' ?
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const AddNewQuiz()))
+                      : Navigator.push(context, MaterialPageRoute(builder: (context) => QuizRuntimeScreen(courseIndex: 0, selectedQuiz: 0, key: UniqueKey(),))),
           //onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizRuntimeScreen(courseIndex: 0, selectedQuiz: 0, key: UniqueKey(),))),
-          child: reusableSubtitleText('Add Quiz', Colors.white)
+          child: reusableSubtitleText(value.status == 'teacher' ? 'Add Quiz' : 'Start here', Colors.white)
         )
       ],
     );

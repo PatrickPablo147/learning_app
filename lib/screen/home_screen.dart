@@ -57,29 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // Software engineering 1 --> Software engineering 2
                     Expanded(child: softEngContainer())
-                    //softEngContainer(),
-                    //const SizedBox(height: 12,),
-
-                    // Indicator
-                    // Center(
-                    //   child: SmoothPageIndicator(
-                    //     controller: _controller,
-                    //     count: 2,
-                    //     effect: const ExpandingDotsEffect(
-                    //       activeDotColor: primaryColor,
-                    //       dotColor: primaryColor,
-                    //       dotWidth: 10,
-                    //       dotHeight: 10
-                    //     ),
-                    //   )
-                    // ),
-
-                    // Topics
-                    //reusableSubtitleText("Topics", textColor),
-                    //const SizedBox(height: 12,),
-
-                    // Topic List Container
-                    //topicListView()
                   ],
                 ),
                 // Indicator

@@ -47,7 +47,10 @@ class SettingsScreen extends StatelessWidget {
           color: Colors.grey,
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const About())
+          ),
           child: reusableSubtitleText(
               "About",
               textColor

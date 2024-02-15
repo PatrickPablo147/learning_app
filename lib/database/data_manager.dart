@@ -7,11 +7,18 @@ import '../models/topics.dart';
 import 'hive_database.dart';
 
 class DataManager extends ChangeNotifier {
+  String? status;
 
   final db = HiveDatabase();
 
   DataManager() {
     initializeData();
+  }
+
+  void updateUsername(String newStatus) {
+    status = newStatus;
+
+    notifyListeners();
   }
 
   /* Summary:
@@ -33,9 +40,9 @@ class DataManager extends ChangeNotifier {
     ],
     //Software Engineering 2
     [
-      Topic(topicValue: 1, topicTitle: "Software Planning and Scheduling", topicImage: "lib/assets/planning.png"),
-      Topic(topicValue: 2, topicTitle: "Software Cost Estimation", topicImage: "lib/assets/cost.png"),
-      Topic(topicValue: 3, topicTitle: "Software Quality", topicImage: "lib/assets/quality.png"),
+      Topic(topicValue: 9, topicTitle: "Software Planning and Scheduling", topicImage: "lib/assets/planning.png"),
+      Topic(topicValue: 10, topicTitle: "Software Cost Estimation", topicImage: "lib/assets/cost.png"),
+      Topic(topicValue: 11, topicTitle: "Software Quality", topicImage: "lib/assets/quality.png"),
     ]
   ];
 
@@ -68,7 +75,6 @@ class DataManager extends ChangeNotifier {
 
   void clearResult() {
     quizResult.clear();
-    _saveData();
 
     notifyListeners();
   }
@@ -76,7 +82,6 @@ class DataManager extends ChangeNotifier {
   List<Quiz> quizList = [
     Quiz(
         name: 'Chapter 1: What is software engineering?',
-        isCompleted: true,
         questions: [
           Question(
               text: "It is a collection of codes, documents, and triggers that does a specific job and fills a specific requirement",
@@ -343,7 +348,7 @@ class DataManager extends ChangeNotifier {
                 Option(text: 'Appendices', isCorrect: false),
                 Option(text: 'System Testing', isCorrect: true),
                 Option(text: 'DERIVING TEST CASES', isCorrect: false),
-                Option(text: 'FLOW GRAPHS', isCorrect: true),
+                Option(text: 'FLOW GRAPHS', isCorrect: false),
               ]
           ),
           Question(
@@ -659,5 +664,23 @@ class DataManager extends ChangeNotifier {
 
   void _saveData() {
     db.saveToDatabase(quizList, quizResult);
+  }
+
+  void clearNewQuizzes() {
+    // Get the index where the new quizzes start
+    int newQuizIndex = softwareEngineering.length;
+
+    // Remove all quizzes starting from the index where new quizzes were added
+    quizList.removeRange(newQuizIndex, quizList.length);
+
+    notifyListeners();
+  }
+
+  void clearData() {
+    clearResult();
+    clearNewQuizzes();
+
+    _saveData();
+    notifyListeners();
   }
 }

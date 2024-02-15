@@ -28,7 +28,7 @@ class ClearRecord extends StatelessWidget {
                     ),
                     const SizedBox(height: 8,),
                     reusableText(
-                        "Removing records would not be recoverable. If you want to continue type delete.",
+                        "Removing records would not be recoverable. If you want to continue type \"DELETE.\"",
                         textColor
                     ),
                     const SizedBox(height: 42,),
@@ -50,7 +50,7 @@ class ClearRecord extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                             borderSide: const BorderSide(color: lGrey),
                           ),
-                          hintText: 'delete',
+                          hintText: 'DELETE',
                           hintStyle: GoogleFonts.inter(
                               color: Colors.grey,
                               fontSize: 16
@@ -60,17 +60,18 @@ class ClearRecord extends StatelessWidget {
                     const SizedBox(height: 8,),
                     MaterialButton(
                       onPressed: () {
-                        String delete = deleteController.text;
-                        if(delete == 'delete') {
-                          value.clearResult();
+                        String delete = deleteController.text.toUpperCase();
+                        if(delete == 'DELETE') {
+                          value.clearData();
+
                           deleteController.clear();
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('The record is clear.',
                                 style: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    letterSpacing: -0.5
+                                  fontSize: 12,
+                                  letterSpacing: -0.5
                                 ),
                               ),
                             ),
@@ -80,7 +81,7 @@ class ClearRecord extends StatelessWidget {
                           deleteController.clear();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Enter delete in lowercase.',
+                              content: Text('Type DELETE correctly.',
                                 style: GoogleFonts.inter(
                                     fontSize: 12,
                                     letterSpacing: -0.5

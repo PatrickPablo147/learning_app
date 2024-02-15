@@ -14,10 +14,13 @@ class IntroductionScreen extends StatefulWidget {
 }
 
 class _IntroductionScreenState extends State<IntroductionScreen> {
+  String? status;
   bool isAgree = false;
 
-  void _start() {
-    if(isAgree) {
+  void _start(DataManager value, String status) {
+    if(isAgree && status.isNotEmpty) {
+      value.updateUsername(status);
+
       Navigator.of(context).push(_createRoute());
     }
     else {
@@ -45,7 +48,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   textColor
                 ),
                 reusableText(
-                  "\nBy using LearnSoftEng (\"the App\"), you agree to comply with and be bound by the following terms and conditions of use. If you do not agree to these terms, please do not use the Application.",
+                  "\nBy using Learn SoftEng, you agree to comply with and be bound by the following terms and conditions of use. If you do not agree to these terms, please do not use the Application.",
                   textColor
                 ),
                 reusableSubtitleText(
@@ -54,7 +57,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 ),
                 reusableText("\nSubject to your compliance with these Terms, our team grants you a limited, non-exclusive, non-transferable, revocable license to use the App for your personal, non-commercial purposes.", textColor),
                 reusableSubtitleText(
-                  "\n3. User Registratio",
+                  "\n3. User Registration",
                   textColor
                 ),
                 reusableText(
@@ -142,6 +145,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Consumer<DataManager>(
       builder: (context, value, child) => Scaffold(
         backgroundColor: bgColor,
@@ -171,14 +175,17 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                               Text(
                                 'WELCOME TO',
                                 style: GoogleFonts.inter(
-                                  fontSize: 42,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              reusableSubtitleText(
-                                "LEARNSOFTENG!",
-                                textColor
-                              )
+                              Text(
+                                'LEARN SOFTENG',
+                                style: GoogleFonts.inter(
+                                  fontSize: 34,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -203,15 +210,47 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                               onTap: () => _showDialog(
                                 'User\'s Agreement',
                               ),
-                              child: reusableText('I agree to the terms and condition', textColor)
+                              child: Text(
+                                'I agree to the terms and condition',
+                                style: GoogleFonts.inter(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: textColor,
+                                  decoration: TextDecoration.underline
+                                ),
+                              )
                             )
+                          ],
+                        ),
+
+                        const SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            const SizedBox(width: 40,),
+                            Expanded(
+                              child: RadioListTile(title: const Text('student'), value: 'student', groupValue: status, onChanged: (value) {
+                                setState(() {
+                                  print(value);
+                                  status = value.toString();
+                                });
+                              }),
+                            ),
+                            Expanded(
+                              child: RadioListTile(title: const Text('teacher'), value: 'teacher', groupValue: status, onChanged: (value) {
+                                setState(() {
+                                  print(value);
+                                  status = value.toString();
+                                });
+                              }),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 20,),
 
                         Center(
                           child: MaterialButton(
-                            onPressed: () => _start(),
+                            onPressed: () => _start(value, status!),
                             minWidth: 300,
                             elevation: 0,
                             padding: const EdgeInsets.symmetric(vertical: 14),
