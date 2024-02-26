@@ -5,6 +5,14 @@ import 'package:software_engineering/screen/home_screen.dart';
 import 'package:software_engineering/screen/quiz_runtime_screen.dart';
 import 'package:software_engineering/utils/reusableText.dart';
 
+/* PATTY DEV
+* Summary:
+* This handles the Result display screen after completion of QUIZ
+* - Text Message
+* - Quiz Percent
+* - Navigation --> next quiz, retrying again, view of other quiz, learning new topics
+* */
+
 class ResultScreen extends StatelessWidget {
   final int selectedQuiz;
   final int courseIndex;

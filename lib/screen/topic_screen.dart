@@ -7,6 +7,13 @@ import 'package:software_engineering/utils/reusableText.dart';
 import '../database/data_manager.dart';
 import '../models/lesson.dart';
 
+/* PATTY_DEV
+* Summary:
+*  This handles topic screen -->
+* - Topics Content
+* - Slide Share PPT
+* */
+
 class TopicScreen extends StatefulWidget {
   final int courseIndex;
   final int topicValue;
@@ -18,7 +25,6 @@ class TopicScreen extends StatefulWidget {
 
 class _TopicScreenState extends State<TopicScreen> {
   final Lesson lessonContent = Lesson();
-  //final _controller = PageController();
   late int currentIndex;
 
   @override
@@ -100,12 +106,13 @@ class _TopicScreenState extends State<TopicScreen> {
     );
   }
 
+  // Chapter Widget
   _chapterContent(DataManager value) {
     final Lesson lessonContent = Lesson();
 
     return reusableText(lessonContent.getContent()[widget.courseIndex][currentIndex].toString(), textColor);
   }
-
+  // Navigation --> Next Topic or Previous Topic
   _navigationWidget(DataManager value) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -131,17 +138,6 @@ class _TopicScreenState extends State<TopicScreen> {
           const SizedBox(
             width: 100,
             height: 40,
-            // child: SmoothPageIndicator(
-            //   controller: _controller,
-            //   count: 5,
-            //   effect: const ExpandingDotsEffect(
-            //       activeDotColor: primaryColor,
-            //       dotColor: primaryColor,
-            //     dotHeight: 10,
-            //     dotWidth: 10,
-            //     spacing: 8
-            //   ),
-            // ),
           ),
           GestureDetector(
             onTap: () {
@@ -162,34 +158,8 @@ class _TopicScreenState extends State<TopicScreen> {
       ),
     );
   }
-
-  void _showDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: SizedBox(
-          height: 590,
-          width: MediaQuery.of(context).size.width,
-          child: Center(
-            child: RotatedBox(
-              quarterTurns: 1,
-              child: PageView.builder(
-                  itemCount: lessonContent.getLessons()[widget.courseIndex][widget.topicValue].length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: Image(image: AssetImage(lessonContent.getLessons()[widget.courseIndex][widget.topicValue][index], ), fit: BoxFit.cover,),
-                    );
-                  }
-              ),
-            ),
-          ),
-        ),
-      )
-    );
-  }
-
-  void _showFullScreenImage() {
+  // Allows Slide Share to Display at Full Scale
+  _showFullScreenImage() {
     Navigator.of(context).push(PageRouteBuilder(
       opaque: true,
       pageBuilder: (BuildContext context, _, __) {
@@ -223,9 +193,7 @@ class _TopicScreenState extends State<TopicScreen> {
       },
     ));
   }
-
-
-
+  // Slide Share PPT Widget
   _slideShareContainer(DataManager value) {
     return SizedBox(
       height: 220,
@@ -233,7 +201,7 @@ class _TopicScreenState extends State<TopicScreen> {
       child: GestureDetector(onTap: _showFullScreenImage, child: LessonSlideShare(courseIndex: widget.courseIndex, topicValue: currentIndex,))
     );
   }
-
+  // Return button and Title
   _header() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,

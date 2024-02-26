@@ -9,8 +9,10 @@ import 'package:software_engineering/screen/quiz_runtime_screen.dart';
 import 'package:software_engineering/utils/reusableText.dart';
 import '../database/data_manager.dart';
 
-/* Summary:
+/* PATTY DEV
+* Summary:
 * Quiz Screen --> Widget that handle the quiz selection and quiz run time and instruction
+* - Display all available quiz e.g Software Engineering 1 Quiz, Software Engineering 2 Quiz, Custom Quiz
 * */
 class QuizScreen extends StatefulWidget {
   const QuizScreen({Key? key}) : super(key: key);

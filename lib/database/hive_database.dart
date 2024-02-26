@@ -5,6 +5,13 @@ import '../models/question.dart';
 import '../models/quiz.dart';
 import '../models/result.dart';
 
+/* PATTY DEV
+*  This handles all database function using HIVE
+* Reading and Saving of database:
+*  - Converting data object to JSON file
+*  - Re converting JSON data to object e.g QUIZ, result, users
+* */
+
 class HiveDatabase {
   late Box _box;
 

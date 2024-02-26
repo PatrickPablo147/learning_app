@@ -9,6 +9,14 @@ import '../const/colors.dart';
 import '../models/option.dart';
 import '../utils/reusableText.dart';
 
+/* PATTY DEV
+* This handles the running of QUIZ
+* - Get the quiz from generated QUIZ list
+* - Display quiz
+* - Set timer for quiz
+* - Count correct score
+* */
+
 class QuizRuntimeScreen extends StatefulWidget {
   final int courseIndex;
   final int selectedQuiz;
@@ -76,7 +84,6 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
   questionCard(DataManager value) {
     List<Question> question = value.getQuizList()[_selectedQuiz!].questions;
 
-    print('Question: $question');
     return Expanded(
       child: PageView.builder(
         controller: _pageController,
@@ -135,15 +142,12 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
                           });
                         } else {
                           if(score > value.getQuizList()[_selectedQuiz!].questions.length / 2) {
-                            print('selected Quiz: $_selectedQuiz');
                             // Set isCompleted to true for the selected topic in the selected quiz
                             Provider.of<DataManager>(context, listen: false)
                                 .getQuizList()[_selectedQuiz!].isCompleted = true;
-                            //.softwareEngineering[widget.courseIndex][_selectedQuiz!]
-                                //.isCompleted = true;
 
                             // Notify listeners to rebuild widgets that depend on DataManager
-                            Provider.of<DataManager>(context, listen: false).notifyListeners();
+                            //Provider.of<DataManager>(context, listen: false).notifyListeners();
                           }
 
                           Provider.of<DataManager>(context, listen: false).addResult(value.quizList[_selectedQuiz!].name, score);
@@ -205,7 +209,6 @@ class _QuizRuntimeScreenState extends State<QuizRuntimeScreen> {
             });
           } else {
             if(score > value.getQuizList()[_selectedQuiz!].questions.length / 2) {
-              print(widget.selectedQuiz);
               // Set isCompleted to true for the selected topic in the selected quiz
               Provider.of<DataManager>(context, listen: false).markQuizCompleted(_selectedQuiz!);
             }

@@ -5,7 +5,8 @@ const Color bgColor = Color(0xFFFBFBFB);
 const Color textColor = Color(0xFF2B262D);
 
 //Theme color
-const Color primaryColor = Color(0xFF305252);
+//const Color primaryColor = Color(0xFF305252);
+const Color primaryColor = Color(0xFF2B262D);
 const Color secondaryColor = Color(0xFFFFFFFF);
 const Color shadowColor = Color(0xFFEBEBEB);
 

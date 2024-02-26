@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:software_engineering/controller/bottom_nav_bar.dart';
+import 'package:software_engineering/login/sign_in.dart';
 import 'package:software_engineering/screen/introduction_screen.dart';
 import 'database/data_manager.dart';
 
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: initScreen == 0 || initScreen == null ? 'onboard' : 'home',
         routes: {
-          'home': (context) => const MyBottomNavBar(),
+          'home': (context) => const SignInScreen(),
           'onboard': (context) => const IntroductionScreen(),
         },
       ),

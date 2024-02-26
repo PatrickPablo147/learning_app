@@ -7,6 +7,15 @@ import 'package:software_engineering/screen/home_screen.dart';
 import 'package:software_engineering/screen/quiz_screen.dart';
 import 'package:software_engineering/screen/settings_screen.dart';
 import '../database/data_manager.dart';
+/* PATTY DEVS
+* Summary:
+* This handles the state of App Navigation
+* Switching to: Home Page
+*               Quiz Page
+*               History Page
+*             & Settings Page
+* */
+
 
 class MyBottomNavBar extends StatelessWidget {
   static final PersistentTabController _controller = PersistentTabController(initialIndex: 0);

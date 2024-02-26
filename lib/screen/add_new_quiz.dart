@@ -5,6 +5,10 @@ import 'package:software_engineering/models/question.dart';
 import 'package:software_engineering/models/quiz.dart';
 import 'package:software_engineering/models/option.dart';
 
+/* PATTY DEV
+* This handles the adding of new quizzes screen
+* */
+
 class AddNewQuiz extends StatefulWidget {
   const AddNewQuiz({Key? key}) : super(key: key);
 
@@ -52,10 +56,10 @@ class _AddNewQuizState extends State<AddNewQuiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add New Quiz'),
+        title: const Text('Add New Quiz'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: _saveQuiz,
           ),
         ],

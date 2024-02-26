@@ -10,7 +10,9 @@ import '../database/data_manager.dart';
 
 /* Summary:
 * Home Screen -> Display the topics and course
+* Navigate to Topic based on Topic Tiles that been TAP
 * */
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 

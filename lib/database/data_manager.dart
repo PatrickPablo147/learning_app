@@ -6,6 +6,17 @@ import '../models/quiz.dart';
 import '../models/topics.dart';
 import 'hive_database.dart';
 
+/* Patty Dev
+* Summary:
+* This handles all data usage in the APP
+* - Reading and Changing of users
+* - Generating of default TOPICS
+* - Generating of default QUIZ
+* - Reading and Adding SCORES
+* - Marking of Completion
+* - Initializing and Clearing DATA
+* */
+
 class DataManager extends ChangeNotifier {
   String? status;
 
@@ -26,6 +37,7 @@ class DataManager extends ChangeNotifier {
   * List<Topic> a class that require [Chapter num, Title, Image, isCompleted = false];
   * */
 
+  // Generate a default list of Topics for Software Engineering
   List<List<Topic>> softwareEngineering = [
     //Software Engineering 1
     [
@@ -46,11 +58,12 @@ class DataManager extends ChangeNotifier {
     ]
   ];
 
-  // Get the List of Topic then return it in List
+  // Get the default List of Topic
   List<List<Topic>> getSoftwareEngineering() {
     return softwareEngineering;
   }
 
+  // Compile the list of Result --> Title of Quiz && Score
   List<Result> quizResult = [];
 
   List<Result> getQuizResult() {
@@ -79,6 +92,7 @@ class DataManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Generate a default Quiz
   List<Quiz> quizList = [
     Quiz(
         name: 'Chapter 1: What is software engineering?',
@@ -646,16 +660,16 @@ class DataManager extends ChangeNotifier {
     print(quizList);
   }
 
+  // Run database when app is Fire
   void initializeData() async {
     await db.init();
-
+    // Check if there is currently data to be read
     if (db.previousDataExists()) {
       final data = db.readFromDatabase();
 
       // Retrieve quizList and quizResult from the data map
       quizList = data['quizList'];
       quizResult = data['quizResult'];
-
     } else {
       print("SAVE");
       _saveData(); // Save default data
@@ -669,7 +683,6 @@ class DataManager extends ChangeNotifier {
   void clearNewQuizzes() {
     // Get the index where the new quizzes start
     int newQuizIndex = softwareEngineering.length;
-
     // Remove all quizzes starting from the index where new quizzes were added
     quizList.removeRange(newQuizIndex, quizList.length);
 
